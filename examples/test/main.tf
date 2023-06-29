@@ -8,6 +8,8 @@ terraform {
 
 provider "rgw" {
   endpoint   = "https://rgw.internal.startnext.org"
+  access_key = "35VN9RRGP4MEKHNYVXX2"
+  secret_key = "kVMOCgSSJYLS5p4tevRb8UoW0Ak5rLCPi5vcLj1k"
 }
 
 resource "rgw_user" "test" {

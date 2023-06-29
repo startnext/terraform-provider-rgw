@@ -36,6 +36,7 @@ Ceph RGW User
 
 - `access_key` (String) The generated access key
 - `id` (String) The ID of this resource.
+- `principal` (String) Computed principal to be used in policies
 - `secret_key` (String) The generated secret key
 
 <a id="nestedatt--caps"></a>

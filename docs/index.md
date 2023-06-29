@@ -17,6 +17,9 @@ description: |-
 
 ### Required
 
-- `access_key` (String) Example provider attribute
-- `endpoint` (String) Example provider attribute
-- `secret_key` (String, Sensitive) Example provider attribute
+- `endpoint` (String) RGW Endpoint URL
+
+### Optional
+
+- `access_key` (String) RGW Access Key. Should be set via env 'TF_PROVIDER_RGW_ACCESS_KEY'
+- `secret_key` (String, Sensitive) RGW Secret Key. Should be set via env 'TF_PROVIDER_RGW_SECRET_KEY'

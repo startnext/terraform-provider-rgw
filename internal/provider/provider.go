@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
@@ -46,16 +47,16 @@ func (p *RgwProvider) Schema(ctx context.Context, req provider.SchemaRequest, re
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
+				MarkdownDescription: "RGW Endpoint URL",
 				Required:            true,
 			},
 			"access_key": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
-				Required:            true,
+				MarkdownDescription: "RGW Access Key. Should be set via env 'TF_PROVIDER_RGW_ACCESS_KEY'",
+				Optional:            true,
 			},
 			"secret_key": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
-				Required:            true,
+				MarkdownDescription: "RGW Secret Key. Should be set via env 'TF_PROVIDER_RGW_SECRET_KEY'",
+				Optional:            true,
 				Sensitive:           true,
 			},
 		},
@@ -68,6 +69,14 @@ func (p *RgwProvider) Configure(ctx context.Context, req provider.ConfigureReque
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	if data.AccessKey.IsNull() {
+		data.AccessKey = types.StringValue(os.Getenv("TF_PROVIDER_RGW_ACCESS_KEY"))
+	}
+
+	if data.SecretKey.IsNull() {
+		data.SecretKey = types.StringValue(os.Getenv("TF_PROVIDER_RGW_SECRET_KEY"))
 	}
 
 	// Create Ceph RGW Admin Client

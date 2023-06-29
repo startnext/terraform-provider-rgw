@@ -49,6 +49,7 @@ type UserResourceModel struct {
 	AccessKey              types.String   `tfsdk:"access_key"`
 	SecretKey              types.String   `tfsdk:"secret_key"`
 	PurgeDataOnDelete      types.Bool     `tfsdk:"purge_data_on_delete"`
+	Principal              types.String   `tfsdk:"principal"`
 }
 
 type UserCapModel struct {
@@ -166,6 +167,10 @@ func (r *UserResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				MarkdownDescription: "Purge user data on deletion",
 				Optional:            true,
 			},
+			"principal": schema.StringAttribute{
+				MarkdownDescription: "Computed principal to be used in policies",
+				Computed:            true,
+			},
 		},
 	}
 }
@@ -244,6 +249,7 @@ func (r *UserResource) Create(ctx context.Context, req resource.CreateRequest, r
 
 	// set resource id
 	data.Id = types.StringValue(createdUser.ID)
+	data.Principal = types.StringValue(fmt.Sprintf("arn:aws:iam::%s:user/%s", data.Tenant.ValueString(), data.Username.ValueString()))
 
 	// set access and secret key
 	if generateKey {

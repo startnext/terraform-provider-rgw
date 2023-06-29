@@ -17,7 +17,26 @@ go install
 
 ## Using the provider
 
-Fill this in for each provider
+Currently the provider is distributed locally. Download the repository an run:
+```
+export PROVIDER_VERSION=1.0.0
+export BINARY_ARCH=darwin_arm64
+CGO_ENABLED=0 go build -o ~/.terraform.d/plugins/terraform.local/local/rgw/${PROVIDER_VERSION}/${BINARY_ARCH}/terraform-provider-rgw_v${PROVIDER_VERSION} -ldflags="-X 'main.Version=${PROVIDER_VERSION}'" main.go
+
+```
+Make sure to use the correct binary architecture
+
+Add the following to your ~/.terraformrc
+```
+provider_installation {
+  filesystem_mirror {
+    path    = "/Users/%Me/.terraform.d/plugins"
+  }
+  direct {
+    exclude = ["terraform.local/*/*"]
+  }
+}
+```
 
 ## Developing the Provider
 
