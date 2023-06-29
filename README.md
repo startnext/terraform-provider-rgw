@@ -1,5 +1,7 @@
 # Terraform Provider Ceph RGW
 
+Dieser Provider kann S3 User, Buckets und Bucket Policies in Ceph RadosGW anlegen. Er wird hauptsächlich intern bei Startnext verwendet.
+
 ## Requirements
 
 - [Terraform](https://www.terraform.io/downloads.html) >= 1.0
@@ -15,9 +17,9 @@
 go install
 ```
 
-## Using the provider
+## Using the provider locally
 
-Currently the provider is distributed locally. Download the repository an run:
+To distribute the provider locally, download the repository and run the following commands. Change `BINARY_ARCH` if you are not on apple silicon.
 ```
 export PROVIDER_VERSION=1.0.0
 export BINARY_ARCH=darwin_arm64
