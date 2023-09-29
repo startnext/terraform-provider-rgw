@@ -17,7 +17,7 @@ description: |-
 
 ### Required
 
-- `endpoint` (String) RGW Endpoint URL
+- `endpoint` (String) RGW Endpoint URL. Can be set via env 'TF_PROVIDER_RGW_ENDPOINT'
 
 ### Optional
 
