@@ -47,7 +47,7 @@ func (p *RgwProvider) Schema(ctx context.Context, req provider.SchemaRequest, re
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
-				MarkdownDescription: "RGW Endpoint URL",
+				MarkdownDescription: "RGW Endpoint URL. Can be set via env 'TF_PROVIDER_RGW_ENDPOINT'",
 				Required:            true,
 			},
 			"access_key": schema.StringAttribute{
@@ -69,6 +69,10 @@ func (p *RgwProvider) Configure(ctx context.Context, req provider.ConfigureReque
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	if data.Endpoint.IsNull() {
+		data.Endpoint = types.StringValue(os.Getenv("TF_PROVIDER_RGW_ENDPOINT"))
 	}
 
 	if data.AccessKey.IsNull() {
